@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sentinel Circle</title>
+<meta name="description" content="Sentinel Circle alerts caregivers by SMS, call, email and WhatsApp when a person with dementia leaves home. No GPS, no wearable, no monthly fees.">
+<link rel="icon" href="./assets/icon-512.png">
+<style>
+  :root {
+    --bg: #f7f8f7;
+    --bg-alt: #eef1ee;
+    --fg: #1b2420;
+    --muted: #566058;
+    --accent: #2e8555;
+    --accent-fg: #ffffff;
+    --border: #dde3dd;
+    --card-bg: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #10140f;
+      --bg-alt: #161c14;
+      --fg: #eef2ec;
+      --muted: #a7b3a7;
+      --accent: #25c2a0;
+      --accent-fg: #06120c;
+      --border: #263124;
+      --card-bg: #161c14;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+  }
+  a { color: var(--accent); }
+  .wrap {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Hero */
+  header.hero {
+    padding: 64px 0 48px;
+    text-align: center;
+  }
+  .icon {
+    width: 96px;
+    height: 96px;
+    border-radius: 22px;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: clamp(2rem, 6vw, 2.75rem);
+    margin: 0 0 0.5rem;
+  }
+  .tagline {
+    color: var(--muted);
+    font-size: 1.2rem;
+    margin: 0 0 0.75rem;
+  }
+  .pitch {
+    max-width: 38rem;
+    margin: 0 auto 2rem;
+    color: var(--muted);
+    font-size: 1.05rem;
+  }
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  a.button {
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.02rem;
+    padding: 0.8rem 1.6rem;
+    border-radius: 999px;
+    border: 2px solid transparent;
+  }
+  a.button.primary {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+  a.button.secondary {
+    background: transparent;
+    color: var(--fg);
+    border-color: var(--border);
+  }
+  a.button:hover, a.button:focus-visible {
+    opacity: 0.9;
+  }
+  .fine-print {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 6px;
+  }
+
+  /* Features */
+  section.features {
+    background: var(--bg-alt);
+    padding: 48px 0;
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 20px;
+  }
+  .feature-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  /* Wider than the page column so the example card fits in two lines on desktop. */
+  .features .wrap {
+    max-width: 70rem;
+  }
+  /* A scenario rather than a feature: spans the whole row under the four feature cards. */
+  .feature-card-wide {
+    grid-column: 1 / -1;
+  }
+  .feature-card h3 {
+    margin: 0 0 8px;
+    font-size: 1.05rem;
+  }
+  .feature-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  /* Supported languages: closed by default, opens into a responsive grid of names. */
+  details.languages summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 12px;
+  }
+  details.languages summary::-webkit-details-marker {
+    display: none;
+  }
+  details.languages summary h3 {
+    display: inline;
+    margin: 0;
+  }
+  details.languages summary h3::after {
+    content: "";
+    display: inline-block;
+    width: 0.45em;
+    height: 0.45em;
+    margin-left: 10px;
+    border-right: 2px solid var(--accent);
+    border-bottom: 2px solid var(--accent);
+    transform: translateY(-0.15em) rotate(-45deg);
+    transition: transform 0.15s ease;
+  }
+  details.languages[open] summary h3::after {
+    transform: translateY(-0.3em) rotate(45deg);
+  }
+  details.languages summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 6px;
+  }
+  details.languages .hint {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .language-list {
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    gap: 10px 20px;
+  }
+  .language-list li {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+  }
+  .language-list .native {
+    font-weight: 600;
+    text-align: start;
+  }
+  .language-list .native[dir="rtl"] {
+    align-self: flex-start;
+  }
+  .language-list .english {
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  /* Screenshots */
+  section.screens {
+    padding: 56px 0;
+    text-align: center;
+  }
+  section.screens h2 {
+    margin: 0 0 8px;
+  }
+  section.screens .sub {
+    color: var(--muted);
+    margin: 0 0 28px;
+  }
+  .screen-row {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 8px 4px 12px;
+    justify-content: center;
+  }
+  .screen-row img {
+    height: 420px;
+    max-width: 80vw;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    flex-shrink: 0;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0 48px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  footer nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  footer nav a {
+    color: var(--fg);
+    text-decoration: none;
+  }
+  footer nav a:hover {
+    text-decoration: underline;
+  }
+  footer .colophon {
+    max-width: 64rem;
+    margin: 0 auto;
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+  @media (max-width: 900px) {
+    footer .colophon {
+      white-space: normal;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <img class="icon" src="./assets/icon-512.png" alt="Sentinel Circle app icon">
+    <h1>Sentinel Circle</h1>
+    <p class="tagline">Know they are safe.</p>
+    <p class="pitch">
+      Alerts caregivers by SMS, phone call, email and WhatsApp when a person with dementia or
+      Alzheimer's leaves home &mdash; using WiFi and Bluetooth already on your phone. No GPS,
+      no wearable, no monthly fees.
+    </p>
+    <div class="cta-row">
+      <a class="button primary" href="https://play.google.com/store/apps/details?id=app.sentinelcircle">Get it on Google Play</a>
+      <a class="button secondary" href="https://adocs.sentinelcircle.app/">Read the docs</a>
+    </div>
+    <p class="fine-print">Free 30-day trial &middot; one-time purchase, no subscription &middot; Android 6.0+</p>
+  </div>
+</header>
+
+<section class="features">
+  <div class="wrap">
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>Five sensors</h3>
+        <p>WiFi, Bluetooth, email, notifications, or an unrecognized-device watch &mdash; pick what fits the home.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Seven alert channels</h3>
+        <p>SMS, phone call, email, WhatsApp, on-device alarm, sound and vibration &mdash; all at once, retried automatically if one fails.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Privacy first</h3>
+        <p>Everything stays on the device. No accounts, no ads, no analytics. Nothing is sent anywhere except the alerts you configure.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Built for dementia care</h3>
+        <p>App lock so the monitored person can't stop it, adjustable debounce timing, and a screen saver for kiosk-style phones.</p>
+      </div>
+      <div class="feature-card feature-card-wide">
+        <h3>Example: two phones, one alert chain</h3>
+        <p>One possible setup: a phone left at home watches a Bluetooth tag the person carries and emails you when they leave &mdash; it needs no mobile plan (no SIM or eSIM), just the home WiFi. A second phone, in your pocket, watches for that email and sounds an alarm.</p>
+      </div>
+      <details class="feature-card feature-card-wide languages">
+        <summary><h3>Available in 30 languages</h3><span class="hint">Follows your phone&rsquo;s language, or pick one in the app</span></summary>
+        <ul class="language-list">
+          <li><span class="native" lang="en">English</span> <span class="english">English</span></li>
+          <li><span class="native" lang="ar" dir="rtl">العربية</span> <span class="english">Arabic</span></li>
+          <li><span class="native" lang="bn">বাংলা</span> <span class="english">Bengali</span></li>
+          <li><span class="native" lang="zh-Hans">简体中文</span> <span class="english">Chinese (Simplified)</span></li>
+          <li><span class="native" lang="zh-Hant">繁體中文</span> <span class="english">Chinese (Traditional)</span></li>
+          <li><span class="native" lang="cs">Čeština</span> <span class="english">Czech</span></li>
+          <li><span class="native" lang="da">Dansk</span> <span class="english">Danish</span></li>
+          <li><span class="native" lang="nl">Nederlands</span> <span class="english">Dutch</span></li>
+          <li><span class="native" lang="fi">Suomi</span> <span class="english">Finnish</span></li>
+          <li><span class="native" lang="fr">Français</span> <span class="english">French</span></li>
+          <li><span class="native" lang="de">Deutsch</span> <span class="english">German</span></li>
+          <li><span class="native" lang="el">Ελληνικά</span> <span class="english">Greek</span></li>
+          <li><span class="native" lang="hi">हिन्दी</span> <span class="english">Hindi</span></li>
+          <li><span class="native" lang="hu">Magyar</span> <span class="english">Hungarian</span></li>
+          <li><span class="native" lang="id">Bahasa Indonesia</span> <span class="english">Indonesian</span></li>
+          <li><span class="native" lang="it">Italiano</span> <span class="english">Italian</span></li>
+          <li><span class="native" lang="ja">日本語</span> <span class="english">Japanese</span></li>
+          <li><span class="native" lang="ko">한국어</span> <span class="english">Korean</span></li>
+          <li><span class="native" lang="nb">Norsk bokmål</span> <span class="english">Norwegian</span></li>
+          <li><span class="native" lang="pl">Polski</span> <span class="english">Polish</span></li>
+          <li><span class="native" lang="pt">Português</span> <span class="english">Portuguese</span></li>
+          <li><span class="native" lang="ro">Română</span> <span class="english">Romanian</span></li>
+          <li><span class="native" lang="ru">Русский</span> <span class="english">Russian</span></li>
+          <li><span class="native" lang="es">Español</span> <span class="english">Spanish</span></li>
+          <li><span class="native" lang="sv">Svenska</span> <span class="english">Swedish</span></li>
+          <li><span class="native" lang="th">ไทย</span> <span class="english">Thai</span></li>
+          <li><span class="native" lang="tr">Türkçe</span> <span class="english">Turkish</span></li>
+          <li><span class="native" lang="uk">Українська</span> <span class="english">Ukrainian</span></li>
+          <li><span class="native" lang="ur" dir="rtl">اردو</span> <span class="english">Urdu</span></li>
+          <li><span class="native" lang="vi">Tiếng Việt</span> <span class="english">Vietnamese</span></li>
+        </ul>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="screens">
+  <div class="wrap">
+    <h2>See it in action</h2>
+    <p class="sub">Live status, configurable sensors, and a full-screen alert that's hard to miss.</p>
+    <div class="screen-row">
+      <img src="./assets/screenshot-status.png" alt="Sentinel Circle status screen showing live monitoring state">
+      <img src="./assets/screenshot-sensors.png" alt="Sentinel Circle sensors list showing WiFi, Bluetooth, email and notification sensors">
+      <img src="./assets/screenshot-alert.png" alt="Sentinel Circle full-screen alert shown when a monitor triggers">
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <nav>
+      <a href="https://play.google.com/store/apps/details?id=app.sentinelcircle">Google Play</a>
+      <a href="https://adocs.sentinelcircle.app/">Documentation</a>
+      <a href="https://adocs.sentinelcircle.app/privacy-policy">Privacy Policy</a>
+      <a href="https://adocs.sentinelcircle.app/terms-of-service">Terms of Service</a>
+      <a href="mailto:support@sentinelcircle.app">support@sentinelcircle.app</a>
+    </nav>
+    <p class="colophon">&copy; 2026 Sentinel Circle. Sentinel Circle is an aid, not a guarantee &mdash; radio signals can be blocked and detection depends on the phone and its settings.</p>
+  </div>
+</footer>
+
+</body>
+</html>
